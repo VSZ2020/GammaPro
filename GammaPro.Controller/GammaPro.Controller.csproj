@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GammaPro.RadiationSource\GammaPro.RadiationSource.csproj" />
+    <ProjectReference Include="..\GammaPro.Utils\GammaPro.Utils.csproj" />
+  </ItemGroup>
+
+</Project>
