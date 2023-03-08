@@ -1,5 +1,4 @@
-﻿using GammaPro.Controller.Buildup;
-using GammaPro.Geometry.Point;
+﻿using GammaPro.Geometry.Point;
 using System;
 using System.Collections.Generic;
 using System.Linq;

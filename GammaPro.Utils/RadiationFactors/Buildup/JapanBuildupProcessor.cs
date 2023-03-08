@@ -9,8 +9,7 @@ namespace GammaPro.Utils.RadiationFactors.Buildup
     public class JapanBuildupProcessor : BaseBuildupProcessor
     {
         /// <summary>
-        /// Набор коэффициентов для расчета. Первый уровень - по слоям, второй - по коэффициентам.
-        /// Требуется 6 аргументов на втором уровне массива: 0 - a, 1 - b, 2 - c, 3 - d, 4 - xi, 5* - barrier factor
+        /// Провайдер коэффициентов
         /// </summary>
         private readonly IBuildupCoefficientsProvider coeffs_provider;
 
@@ -31,7 +30,7 @@ namespace GammaPro.Utils.RadiationFactors.Buildup
 
         public JapanBuildupProcessor(IBuildupCoefficientsProvider coeffs_provider): base(coeffs_provider)
         {
-            if (CheckCoefficientsCount(coeffs_provider, 6))
+            if (!CheckCoefficientsCount(coeffs_provider, 6))
                 throw new ArgumentException("Japan coefficients count is incorrect. Check array!");
             this.coeffs_provider = coeffs_provider;
         }

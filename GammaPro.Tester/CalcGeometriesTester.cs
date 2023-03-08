@@ -19,15 +19,12 @@ namespace GammaPro.Tester
         [Fact]
         public void TestParallelepipedGeometry()
         {
-            float[][] interpolated_factors = new float[][]
-            {
-                new float[]{0.1f/*A1*/, 0.2f/*alpha1*/, 0.3f/*alpha2*/, 0.4f/*delta*/}
-            };
             float[] attenuation_factors = new float[] { 0.005f};
-            IBuildupProcessor buildupProcessor = new Taylor2ExpBuildupProcessor(interpolated_factors);
+            IBuildupProcessor buildupProcessor = new Taylor2ExpBuildupProcessor(
+                new BaseBuildupCoefficientsProvider(BuildupTesters.GetRandomCoefficientsByLayer(1, BuildupTesters.GetRandomTaylorCoefficients)));
             IComplexBuildupProcessor complexProcessor = new BroderBuildupProcessor(buildupProcessor, 1);
             ParallelepipedDimensions dims = new ParallelepipedDimensions(1, 1, 1);
-            CalculationGeometryInput input = new CalculationGeometryInput(dims, complexProcessor, CancellationToken.None);
+            CalculationGeometryInput input = new CalculationGeometryInput(dims, complexProcessor, new List<ShieldLayer>(),CancellationToken.None);
             ICalculationGeometry geometry = new ParallelepipedCalcGeometry(input, attenuation_factors);
             double result = geometry.CalculateFluxRate();
             //TODO: finish test
@@ -45,9 +42,10 @@ namespace GammaPro.Tester
                 new CylinderDimensions(1, 1),
                 new BroderBuildupProcessor(
                     new Taylor2ExpBuildupProcessor(
-                        new float[][] {
-                            new float[] { 1, 2, 3 } }),
-                    1),
+                        new BaseBuildupCoefficientsProvider(
+                            BuildupTesters.GetRandomCoefficientsByLayer(1,BuildupTesters.GetRandomTaylorCoefficients))),
+                1),
+                new List<ShieldLayer>(),
                 CancellationToken.None);
                 new ParallelepipedCalcGeometry(inp, new float[] { 1, 2, 3 });
             });

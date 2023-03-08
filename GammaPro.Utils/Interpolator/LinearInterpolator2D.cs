@@ -97,5 +97,10 @@ namespace GammaPro.Utils.Interpolator
                 intercepts[i] = XY0[i].Y - slopes[i] * XY0[i].X;
             }
         }
+
+        public double GetDeterminationFactor(float[] y)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

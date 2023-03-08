@@ -8,19 +8,22 @@ using System.Threading.Tasks;
 
 namespace GammaPro.Controller.Geometry
 {
-    public interface IShieldLayer
+    public class ShieldLayer
     {
         /// <summary>
         /// Идентификатор материала слоя защиты
         /// </summary>
-        int MaterialId { get; set; }
-        float Density { get; set; }
-        Point3D Position { get; set; }
+        public int MaterialId { get; set; }
+        public float Density { get; set; }
+        public Point3D Position { get; set; }
         /// <summary>
         /// Возвращает эффективную толщину ослабления данного материала на пути от источника до точки измерения
         /// </summary>
         /// <param name="directionVector">Вектор направления от точки источника до точки измерения</param>
         /// <returns>Возвращает эффективную толщину</returns>
-        float GetEffectiveThickness(Vector3D directionVector);
+        public float GetEffectiveThickness(Vector3D directionVector)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

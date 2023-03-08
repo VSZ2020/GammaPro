@@ -13,7 +13,7 @@ namespace GammaPro.Geometry.Parallelepiped
         private readonly CancellationToken token;
         private readonly ParallelepipedDimensions dimensions;
         private readonly IComplexBuildupProcessor? buildupProcessor;
-        private readonly IList<IShieldLayer> shieldLayers;
+        private readonly IList<ShieldLayer> shieldLayers;
         private readonly bool isIncludeScattering;
         public float[] AttenuationCoefficients { get; private set; }
 

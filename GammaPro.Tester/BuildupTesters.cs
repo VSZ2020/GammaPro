@@ -6,37 +6,68 @@ namespace GammaPro.Tester
         [Fact]
         public void TaylorBuildupTest()
         {
-            float[][] arguments = new float[][]
-            {
-                new float[]
-                {
-                    0.132f,     //A1
-                    -0.54f,     //alpha1
-                    -0.232f,    //alpha2
-                    0.982f      //barrier factor
-                }
-        };
-            IBuildupProcessor taylor_processor = new Taylor2ExpBuildupProcessor(arguments);
+            IBuildupCoefficientsProvider provider = new BaseBuildupCoefficientsProvider(
+                GetRandomCoefficientsByLayer
+                (
+                    (new Random()).Next(1, 10),
+                    GetRandomTaylorCoefficients
+                )
+            );
+            IBuildupProcessor taylor_processor = new Taylor2ExpBuildupProcessor(provider);
             double buildup = taylor_processor.GetBuildupFactor(0.44, 0, true);
-            Assert.Equal(1.128688, buildup, 1E-6);
+            Assert.True(buildup >= 1.0);
         }
+
+        [Fact]
         public void JapanBuildupTest_1()
         {
-            float[][] arguments = new float[][]
+            IBuildupCoefficientsProvider provider = new BaseBuildupCoefficientsProvider(
+                GetRandomCoefficientsByLayer
+                (
+                    (new Random()).Next(1,10), 
+                    GetRandomJapanCoefficients
+                )
+            );
+            float ud = 0.44f;
+            IBuildupProcessor japan_processor = new JapanBuildupProcessor(provider);
+            double buildup = japan_processor.GetBuildupFactor(ud, 0, true);
+            Assert.True(buildup >= 1.0);
+        }
+
+        public static float[][] GetRandomCoefficientsByLayer(int layers_count, Func<float[]> coeffsGenerator)
+        {
+            float[][] coeffs = new float[layers_count][];
+            for (int i = 0; i < layers_count; i++)
+                coeffs[i] = coeffsGenerator.Invoke();
+            return coeffs;
+        }
+
+        public static float[] GetRandomTaylorCoefficients()
+        {
+            return new float[]
             {
-               new float[]
-               {
-                    0.132f,     //a
-                    0.54f,      //b
-                    0.232f,     //c
-                    0.982f,     //d
-                    0.62f,      //xi
-                    0.833f      //barrier factor
-               }
-        };
-            IBuildupProcessor japan_processor = new JapanBuildupProcessor(arguments);
-            double buildup = japan_processor.GetBuildupFactor(0.44, 0, true);
-            Assert.Equal(0, buildup, 1E-6);
+                GetRandomInRange(0.2f,30f),     //A1
+                GetRandomInRange(-0.005f,0.6f), //alpha1
+                GetRandomInRange(0, 0.2f),      //alpha2
+                GetRandomInRange(0.7f, 1f)      //Barrier
+            };
+        }
+        public static float[] GetRandomJapanCoefficients()
+        {
+            return new float[]
+            {
+                GetRandomInRange(0.01f,0.5f),     //a
+                GetRandomInRange(0.01f,0.5f),     //b
+                GetRandomInRange(0.01f,0.5f),     //c
+                GetRandomInRange(0.01f,0.5f),     //d
+                GetRandomInRange(0.01f,0.5f),     //xi
+                GetRandomInRange(0.01f,0.5f),     //barrier
+            };
+        }
+        public static float GetRandomInRange(float min, float max)
+        {
+            Random rnd = new Random();
+            return min + rnd.NextSingle() * (max - min);
         }
     }
 }

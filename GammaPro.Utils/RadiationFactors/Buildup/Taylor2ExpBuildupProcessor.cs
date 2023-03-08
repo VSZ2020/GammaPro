@@ -9,7 +9,10 @@ namespace GammaPro.Utils.RadiationFactors.Buildup
 {
     public class Taylor2ExpBuildupProcessor : BaseBuildupProcessor
     {
-        private readonly float[][] coefficients;
+        /// <summary>
+        /// Провайдер коэффициентов
+        /// </summary>
+        private readonly IBuildupCoefficientsProvider coeffs_provider;
 
         /// <summary>
         /// Возвращает фактор накопления, рассчитанный по формуле Тейлора в двухэкспоненциальном приближении
@@ -20,8 +23,9 @@ namespace GammaPro.Utils.RadiationFactors.Buildup
         /// <returns></returns>
         public new double GetBuildupFactor(double ud, int layerIndex, bool isIncludeBarrierFactor = false)
         {
-            double buildup = coefficients[layerIndex][0] * Math.Exp(-coefficients[layerIndex][1] * ud) + (1 - coefficients[layerIndex][0]) * Math.Exp(-coefficients[layerIndex][2] * ud);
-            return buildup * (isIncludeBarrierFactor ? coefficients[layerIndex][3] : 1.0);
+            float[] coefficients = coeffs_provider.GetCoefficients(layerIndex);
+            double buildup = coefficients[0] * Math.Exp(-coefficients[1] * ud) + (1 - coefficients[0]) * Math.Exp(-coefficients[2] * ud);
+            return buildup * (isIncludeBarrierFactor ? coefficients[3] : 1.0);
         }
         
         /// <summary>
@@ -29,11 +33,11 @@ namespace GammaPro.Utils.RadiationFactors.Buildup
         /// </summary>
         /// <param name="coefficients">Двумерный массив коэффициентов</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public Taylor2ExpBuildupProcessor(float[][] coefficients):base(coefficients)
+        public Taylor2ExpBuildupProcessor(IBuildupCoefficientsProvider provider):base(provider)
         {
-            if (CheckCoefficientsCount(coefficients, 4))
+            if (!CheckCoefficientsCount(provider, 4))
                 throw new ArgumentException("Taylor coefficients count is incorrect. Check array!");
-            this.coefficients = coefficients;
+            this.coeffs_provider = provider;
         }
 
         

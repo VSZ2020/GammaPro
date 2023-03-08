@@ -1,5 +1,6 @@
 ﻿using GammaPro.Controller.Database;
 using GammaPro.Controller.Database.Entries;
+using GammaPro.Utils.RadiationFactors.Buildup;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -19,6 +20,26 @@ namespace GammaPro.Repository.Database
             if (materials_context == null)
                 throw new ArgumentNullException($"{nameof(materials_context)} has NULL reference!");
             materialsContext = materials_context;
+        }
+
+        public IEnumerable<AttenuationFactorEntry> GetAttenuationFactors(int materialId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IEnumerable<AttenuationFactorEntry>> GetAttenuationFactors(IList<int> materialIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IBuildupEntry> GetBuildupFactors(int materialId, BuildupType type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IEnumerable<IBuildupEntry>> GetBuildupFactors(IList<int> materialsIds, BuildupType type)
+        {
+            throw new NotImplementedException();
         }
 
         public MaterialEntry GetMaterialById(int id)

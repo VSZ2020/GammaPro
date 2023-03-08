@@ -16,12 +16,12 @@ namespace GammaPro.Controller.Calculation
         public CancellationToken Token;
         public IGeometryDimensions Dimensions { get; private set; }
         public IComplexBuildupProcessor? BuildupComplexProcessor { get; private set; }
-        public IList<IShieldLayer> ShieldLayers { get; private set; }
+        public IList<ShieldLayer> ShieldLayers { get; private set; }
 
         public CalculationGeometryInput(
             IGeometryDimensions dimensions, 
             IComplexBuildupProcessor? buildupProcessor,
-            IList<IShieldLayer> shield_layers,
+            IList<ShieldLayer> shield_layers,
             CancellationToken token)
         {
             if (dimensions == null)
